@@ -22,7 +22,7 @@ class naiveBayesClassifier():
             for word in text_arr:
                 for c in range(classes):
                     if word not in self.conditional[str(c)].keys():
-                        prob[c][i] += eps
+                        # prob[c][i] += eps
                         not_in_vocab+=1
                     else:
                         prob[c][i] += np.log(self.conditional[str(c)][word])
@@ -107,7 +107,19 @@ class naiveBayesClassifier():
         series = series.str.lower()
         series =series.str.findall("[a-zA-Z]+")
         
-        print(series.head())
+        # print(series.head())
+        return series
+
+    def processStrings(data):
+    
+        series =  pd.Series(data["text"], dtype="string")
+        #remove html tags
+        series = series.str.replace("[<][a-zA-Z]+ [/][>]+", "",case=False, regex=True)
+        #TODO: add emoticons
+        series = series.str.lower()
+        series =series.str.findall("[a-zA-Z]+")
+        
+        # print(series.head())
         return series
 
 
