@@ -79,7 +79,7 @@ class naiveBayesClassifier():
                     c1_counter+=1
             if i%100==0:
                 print("Calculating freqs. Progress: "+str(round((i/self.data.index.values[-1])*100,2)) + "%")
-            # if i==100:
+            # if i==7000:
             #     break
             
         print({k: vocab["0"][k] for k in list(vocab["0"])[:10]})

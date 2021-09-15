@@ -133,3 +133,4 @@ dmypy.json
 .vs/DM2583-Lab1/v16/.suo
 .vscode/launch.json
 conditional_100tweets.pickle
+conditional_train_test.pickle

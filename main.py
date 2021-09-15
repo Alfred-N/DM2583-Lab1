@@ -10,8 +10,8 @@ eval = pd.read_csv("evaluation.csv", dtype={"score":np.int32,"text":str})
 classifier = naiveBayesClassifier(train)
 classifier.train()
 
-test_set = train
+test_set = test
 predictions = classifier.predict(test_set)
-accuracy = np.size(np.where(predictions==test_set["score"].values))/(test_set.index.values[-1] + 1)
+accuracy = np.size(np.where(predictions==test_set["score"].values))/(test_set.index.values[-1] + 1)*100
 
 print(f"Accuracy = {accuracy} %")
