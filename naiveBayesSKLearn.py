@@ -17,8 +17,8 @@ eval = pd.read_csv("evaluation.csv", dtype={"score":np.int32,"text":str})
 # vec = CountVectorizer(stop_words='english')
 
 #Using my data processing:
-train["text"] = naiveBayesClassifier.processStrings(train).str.join(" ")
-test["text"] = naiveBayesClassifier.processStrings(test).str.join(" ")
+train["text"] = naiveBayesClassifier.processStringsForSKL(train)
+test["text"] = naiveBayesClassifier.processStringsForSKL(test)
 vec = CountVectorizer()
 
 x_train = vec.fit_transform(train["text"]).toarray()
@@ -31,5 +31,5 @@ acc_train = model.score(x_train, train["score"].values)
 acc_test = model.score(x_test, test["score"].values)
 
 print(acc_train)
-print(acc_train)
+print(acc_test)
 

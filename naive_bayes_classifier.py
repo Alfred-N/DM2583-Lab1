@@ -68,7 +68,7 @@ class naiveBayesClassifier():
         counter =0
         for i,text_arr in enumerate(self.data["text"]):
             for word in text_arr:
-                if word not in vocab[str(self.data.loc[i,"score"])]:
+                if word not in vocab[str(self.data.loc[i,"score"])].keys():
                     vocab[str(self.data.loc[i,"score"])][word]=1
                 else:
                     vocab[str(self.data.loc[i,"score"])][word]+=1
@@ -109,3 +109,25 @@ class naiveBayesClassifier():
         
         # print(series.head())
         return series
+<<<<<<< Updated upstream
+=======
+
+    def processStringsForSKL(data):
+    
+        series =  pd.Series(data["text"], dtype="string")
+        #remove html tags
+        series = series.str.replace("[<][a-zA-Z]+ [/][>]+", "",case=False, regex=True)
+        #TODO: add emoticons
+        series = series.str.lower()
+        series =series.str.findall("[a-zA-Z]+")
+        
+        # print(series.head())
+        return series.str.join(" ")
+
+
+    
+
+    
+
+        
+>>>>>>> Stashed changes

@@ -12,6 +12,8 @@ classifier.train()
 
 test_set = test
 predictions = classifier.predict(test_set)
+plt.plot(predictions)
+plt.show()
 accuracy = np.size(np.where(predictions==test_set["score"].values))/(test_set.index.values[-1] + 1)*100
 
 print(f"Accuracy = {accuracy} %")
