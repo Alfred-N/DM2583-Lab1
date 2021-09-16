@@ -109,22 +109,3 @@ class naiveBayesClassifier():
         
         # print(series.head())
         return series
-
-    def processStrings(data):
-    
-        series =  pd.Series(data["text"], dtype="string")
-        #remove html tags
-        series = series.str.replace("[<][a-zA-Z]+ [/][>]+", "",case=False, regex=True)
-        #TODO: add emoticons
-        series = series.str.lower()
-        series =series.str.findall("[a-zA-Z]+")
-        
-        # print(series.head())
-        return series
-
-
-    
-
-    
-
-        
