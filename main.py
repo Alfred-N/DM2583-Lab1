@@ -1,17 +1,46 @@
-from naive_bayes_classifier import naiveBayesClassifier
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+from naive_bayes_classifier import NaiveBayesClassifier
+from sklearn.naive_bayes import MultinomialNB
 
-train = pd.read_csv("train.csv", dtype={"score":np.int32,"text":str})
-test = pd.read_csv("test.csv", dtype={"score":np.int32,"text":str})
-eval = pd.read_csv("evaluation.csv", dtype={"score":np.int32,"text":str})
+# read data sets
+train = pd.read_csv("train.csv", dtype={"score": np.int32, "text": str})
+test = pd.read_csv("test.csv", dtype={"score": np.int32, "text": str})
+evaluation = pd.read_csv("evaluation.csv", dtype={"score": np.int32, "text": str})
 
-classifier = naiveBayesClassifier(train)
-classifier.train()
+vec = CountVectorizer()
 
-test_set = test
-predictions = classifier.predict(test_set)
-accuracy = np.size(np.where(predictions==test_set["score"].values))/(test_set.index.values[-1] + 1)*100
+# choose type of data processing
+algorithm = input("Please choose the type of data processing. Choices are 'sklearn' or 'own'.\n").lower()
+if algorithm == "own":
+    train["text"] = NaiveBayesClassifier.process_strings(train).str.join(" ")
+    test["text"] = NaiveBayesClassifier.process_strings(test).str.join(" ")
+    evaluation["text"] = NaiveBayesClassifier.process_strings(evaluation).str.join(" ")
+    vec = CountVectorizer()
+elif algorithm == "sklearn":
+    train["text"] = train["text"].str.strip().str.lower()
+    test["text"] = test["text"].str.strip().str.lower()
+    evaluation["text"] = evaluation["text"].str.strip().str.lower()
+    vec = CountVectorizer(stop_words='english')
 
-print(f"Accuracy = {accuracy} %")
+# transform data
+print("Transforming data...")
+x_train = vec.fit_transform(train["text"]).toarray()
+x_test = vec.transform(test["text"]).toarray()
+x_eval = vec.transform(evaluation["text"]).toarray()
+
+# train model
+print("Training model...")
+model = MultinomialNB()
+model.fit(x_train, train["score"].values)
+
+# measure accuracies of models
+print("Scoring model...")
+acc_train = model.score(x_train, train["score"].values)
+acc_test = model.score(x_test, test["score"].values)
+acc_eval = model.score(x_eval, evaluation["score"].values)
+
+print(f"Accuracy on training data = {round(acc_train, 3)} %")
+print(f"Accuracy on test data = {round(acc_test, 3)} %")
+print(f"Accuracy on evaluation data = {round(acc_eval, 3)} %")
