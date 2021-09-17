@@ -86,7 +86,7 @@ class NaiveBayesClassifier:
         c1_counter = 0
         for i, text_arr in enumerate(self.data["text"]):
             for word in text_arr:
-                if word not in vocab[str(self.data.loc[i, "score"])]:
+                if word not in vocab[str(self.data.loc[i, "score"])].keys():
                     vocab[str(self.data.loc[i, "score"])][word] = 1
                 else:
                     vocab[str(self.data.loc[i, "score"])][word] += 1
@@ -131,4 +131,4 @@ class NaiveBayesClassifier:
         series = series.str.findall("[a-zA-Z]+")
         # TODO: add emoticons
 
-        return series
+        return series.str.join(" ")

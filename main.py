@@ -14,9 +14,9 @@ vec = CountVectorizer()
 # choose type of data processing
 algorithm = input("Please choose the type of data processing. Choices are 'sklearn' or 'own'.\n").lower()
 if algorithm == "own":
-    train["text"] = NaiveBayesClassifier.process_strings(train).str.join(" ")
-    test["text"] = NaiveBayesClassifier.process_strings(test).str.join(" ")
-    evaluation["text"] = NaiveBayesClassifier.process_strings(evaluation).str.join(" ")
+    train["text"] = NaiveBayesClassifier.process_strings(train)
+    test["text"] = NaiveBayesClassifier.process_strings(test)
+    evaluation["text"] = NaiveBayesClassifier.process_strings(evaluation)
     vec = CountVectorizer()
 elif algorithm == "sklearn":
     train["text"] = train["text"].str.strip().str.lower()
