@@ -50,18 +50,22 @@ print(f"Accuracy on test data = {round(acc_test, 3)} %")
 print(f"Accuracy on evaluation data = {round(acc_eval, 3)} %")
 
 # calculate how many predictions were off
-count0 = np.size(np.where(test["score"] == 0))
-count1 = np.size(np.where(test["score"] == 1))
-correct0 = np.size(np.where(np.logical_and(model.predict(x_test) == test["score"].values, test["score"].values == 0)))
-correct1 = np.size(np.where(np.logical_and(model.predict(x_test) == test["score"].values, test["score"].values == 1)))
+test_data = evaluation
+test_vec = x_eval
+count0 = np.size(np.where(test_data["score"] == 0))
+count1 = np.size(np.where(test_data["score"] == 1))
+correct0 = np.size(np.where(np.logical_and(model.predict(test_vec) == test_data["score"].values, test_data["score"].values == 0)))
+correct1 = np.size(np.where(np.logical_and(model.predict(test_vec) == test_data["score"].values, test_data["score"].values == 1)))
 
 # confusion matrix for sentiment
 fig, ax = plt.subplots()
-ax.imshow([[count1 - correct1, correct1], [correct0, count0 - correct0]], cmap="PuBu")
+plot_data = [[count1 - correct1, correct1], [correct0, count0 - correct0]]
+plot = ax.imshow(plot_data, cmap="PuBu")
 ax.set_xticks([0, 1])
 ax.set_yticks([0, 1])
 ax.set_xticklabels(["0", "1"])
 ax.set_yticklabels(["1", "0"])
+plt.colorbar(plot)
 plt.xlabel("true sentiment")
 plt.ylabel("predicted sentiment")
 plt.title("Confusion matrix of true to predicted sentiment")
